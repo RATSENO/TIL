@@ -6,8 +6,6 @@ Member member = new Member();
 member.setId("member1");
 member.setUsername("회원1");
 
-
-
 *영속(managed)
 영속성 컨텍스트에 관리되는 상태
 entitymanager 안에는 영속 컨텍스트라는 영역이 있다.
@@ -34,4 +32,84 @@ em.detached(member);
 em.remove(member);
 
 
+영속성 컨텍스트의 이점
+-1차 캐시
+-동일성(identity)보장
+-트랜잭션을 지원하는 쓰기지원
+-변경감지(Dirty Checking)
+-지연로딩(Lazy Loading)
 
+1차 캐시에서 조회
+Member member  = new Member();
+member.setId("member1");
+member.setUsername("회원1");
+
+//1차 캐시에 저장된
+em.persist(member);
+
+//1차 캐시에서 조회
+Member findMember = em.find(Member.class, "member1");
+먼저 1차 캐시에서 검색을 한다.
+
+Member findMember2 = em.find(Member.class "member2");
+//먼저 1차 캐시에서 조회를한다.
+//없으니 DB에서 조회를 한다.
+//조회를 한것을 1차 캐시에 저장을 한다.
+//그리고 반환을 한다.
+
+
+영속 엔티티의 동일성 보장
+Member a = em.find(Member.class, "member1");
+Member b = em.find(Member.class, "member2");
+
+system.out.println(a == b);//동일성 비교 true
+1차 캐시로 반복 가능한 읽기(REPEATABLE READ) 등급의 트랜잭션 격리 수준을
+데이터베이스가 아닌 애플리케이션 차원에서 제공
+
+
+엔티티 등록
+트랙잭션을 지원하는 쓰기 지원
+EntityManager em = emf.createEntityManager();
+EntityTrasaction transaction = em.getTransaction();
+//엔티티 매니저는 데이터 변경시 트랜잭션을 시작해야한다.
+transaction.begin();
+
+em.persist(memberA);
+em.persist(memberB);
+//여기까지 INSERT SQL을 데이터베이스에 보내지 않는다.
+
+//커밋하는 순간 데이터베이스에 INSERT SQL을 보낸다.
+transaction.commit();//[트랜잭션] 커밋
+
+
+엔티티 수정
+변경 감지(Dirty Checking)
+EntityManager em = emf.createEntityManager();
+EntityTrasaction transaction = em.getTransaction();
+transaction.begin();
+
+//영속 엔티티 조회
+Member memberA = em.find(Member.class, "memberA;
+
+//영속 엔티티 데이터 수정
+memberA.setUserName("hi");
+memberA.setAge(10)
+
+//em.update(member) 이런 코드가 있어야 하지 않는가?
+
+transaction.commit();
+
+
+플러시
+영속석 컨텍스트의 변경내용을 데이터베이스에 반영
+
+플러시 발생
+-변경 감지
+-수정된 엔티티 쓰기 지연 SQL저장소에 등록
+-쓰기 지연 SQL 저장소의 쿼리를 데이터베이스에 전송
+(등록, 수정, 삭제 쿼리)
+
+플러시는!
+-영속석 컨텍스트를 비우지 않음
+-영속석 컨텍스트의 변경내용을 데이터베이스에 동기화
+-트랙잭션이라는 작업단위가 중요 -> 커밋 직전에만 동기화 하면 됨
