@@ -170,7 +170,9 @@ LINK : [Gradle 정리](https://netframework.tistory.com/entry/Gradle-%EC%A0%95%E
 LINK : [실습참고5](https://www.baeldung.com/spring-rest-with-zuul-proxy)  
 LINK : [실습참고6](https://www.baeldung.com/zuul-load-balancing)  
 LINK : [실습참고7](https://lion-king.tistory.com/13)  
-LINK : [실습참고8](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-01/)
+LINK : [실습참고8](https://ssipflow.github.io/msa/Spring-Cloud-API-Gateway-01/)  
+LINK : [참고9](https://coe.gitbook.io/guide/service-discovery/eureka)  
+
 
 
 
